@@ -6,8 +6,8 @@ calculate how much a rich alumnus would have to give to pay for one full year (a
 and an out-of-state student. Store your final answer in the variables: "in_state_gift" and "out_state_gift".
 
 JMU 2022-2023 Annual:
-In-state total cost: 30792 USD
-Out-of-state total cost: 47882 USD
+- In-state total cost: 30792 USD
+- Out-of-state total cost: 47882 USD
 
 Note: this problem does not require the "compounding interest" formula from the problem below.
 
