@@ -29,5 +29,12 @@ num_evens = 0
 num_odds = 0
 
 ### YOUR CODE BEGINS HERE ###
+for num in nums:
+    if int(num) % 2 == 0:
+        num_evens = num_evens + 1
+    else:
+        num_odds = num_odds + 1
 
 print(nums)
+print(num_evens)
+print(num_odds)
