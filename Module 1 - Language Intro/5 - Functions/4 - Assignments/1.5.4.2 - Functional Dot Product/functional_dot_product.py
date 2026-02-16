@@ -9,7 +9,6 @@ def generate_random_int_list(list_length, upper_bound):
 
     # return the generated list
     return randoms
-
 def dot_product(a,b):
     """
     A custom function to calculate the dot product of two lists
@@ -17,13 +16,17 @@ def dot_product(a,b):
     :param b: List B of values
     :return: The dot product as a value between a * b
     """
-
+    if len(a)==len(b):
+        dot_prod = 0
+        for item in range(len(a)):
+            dot_prod += (a[item] * b[item])
+    else:
+        print("Error, list lengths do not match")
     ### YOUR CODE HERE ###
 
 
     ### CHANGE THIS RETURN VALUE. IT IS HERE SO THE CODE DOES NOT ERROR
-    return None
-
+    return dot_prod
 """
 Step 1: Generate two "vectors" of equal length but full of random values
 """
