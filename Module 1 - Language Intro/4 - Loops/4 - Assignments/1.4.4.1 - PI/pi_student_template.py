@@ -31,7 +31,7 @@ for i in range(1, 10):
     a_next = (a+b)/2
     b_next = math.sqrt(a*b)
     p_next = 2*p
-    t_next = (t)-(p*((a_next)-a))
+    t_next = (t)-(p*(((a_next)-a)**2))
     a = a_next
     b = b_next
     p = p_next
@@ -45,7 +45,7 @@ Step 3: After iterating 10 times, calculate the final value for PI
 """
 
 # modify this line below to estimate PI
-pi_estimate = ((int(a+b))^2)/(4*t)
+pi_estimate = ((a+b)**2)/(4*t)
 
 print("Final estimate for PI: ", pi_estimate)
 print("Error on estimate: ", abs(pi_estimate - math.pi))
