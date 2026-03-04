@@ -61,13 +61,13 @@ def calculate_stress(force, sample_diameter):
     """
 
     # calculate the cross-section area (mm^2)
-    ### your code here ###
+    cross_section_area = np.pi*((sample_diameter/2)**2)
 
     # calculate stress (MPa) from load (kN) and cross-sectional area
-    ### your code here ###
+    stress_calc = force/cross_section_area
 
     # delete this line and replace it with your own
-    stress = None
+    stress = stress_calc
 
     return stress
 
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     ### Do not modify below this line ###
 
-    path_to_directory = "../../../data/tensile/"
+    path_to_directory = r"C:\Users\thatt\OneDrive_Personal\OneDrive\Desktop\ENGR315-sp2026-student\data\tensile\\"
     path_to_samples = path_to_directory + material_folder + "/"
 
     # manually parse file to get gage diameter and then calculate cross-sectional area

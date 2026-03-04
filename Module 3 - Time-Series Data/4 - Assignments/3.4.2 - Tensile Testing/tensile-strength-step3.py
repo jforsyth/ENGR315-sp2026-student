@@ -59,10 +59,16 @@ def calculate_stress(force, sample_diameter):
     :param sample_diameter: The diameter of the sample in millimeters (mm)
     :return: An array of stresses experienced by the sample in Kilo Pascals (MPa)
     """
+    # calculate the cross-section area (mm^2)
+    cross_section_area = np.pi*((sample_diameter/2)**2)
 
-    ### YOUR SOLUTION FROM STEP 1 TEMPLATE HERE ###
+    # calculate stress (MPa) from load (kN) and cross-sectional area
+    stress_calc = (force)/(cross_section_area)
 
-    return None
+    # delete this line and replace it with your own
+    stress = stress_calc
+
+    return stress
 
 
 def calculate_max_strength_strain(strain, stress):
@@ -75,9 +81,13 @@ def calculate_max_strength_strain(strain, stress):
     Fracture Strain: the maximum strain experienced before fracture
     """
 
-    ### YOUR SOLUTION FROM STEP 2 TEMPLATE HERE ###
+    # calculate the maximum stress experienced
+    ultimate_tensile_stress = np.max(stress)
 
-    return -1, -1
+    # calculate the maximum strain experienced
+    fracture_strain = np.max(strain)
+
+    return ultimate_tensile_stress, fracture_strain
 
 def calculate_elastic_modulus(strain, stress):
     """
@@ -98,6 +108,10 @@ def calculate_elastic_modulus(strain, stress):
 
     # Step 3a: find the point that is 40% of peak stress
     # use from 0 to that value to create a linear plot
+    target_val = int(0.4*(np.max(stress)))
+    stress_linear_array = stress[0:target_val]
+    strain_linear_array = strain[0:target_val]
+
 
     ### your code below ###
     secant_strain = -1
@@ -141,7 +155,7 @@ if __name__ == "__main__":
 
     ### Do not modify below this line ###
 
-    path_to_directory = "../../../data/tensile/"
+    path_to_directory = r"C:\Users\thatt\OneDrive_Personal\OneDrive\Desktop\ENGR315-sp2026-student\data\tensile\\"
     path_to_samples = path_to_directory + material_folder + "/"
 
     # manually parse file to get gage diameter and then calculate cross-sectional area
