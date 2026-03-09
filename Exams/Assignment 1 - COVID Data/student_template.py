@@ -15,7 +15,9 @@ def parse_nyt_data(file_path=''):
     """
     # data point list
     data=[]
-
+    file_name='us-counties.csv'
+    file_folder = r'C:\Users\thatt\OneDrive_Personal\OneDrive\Desktop\ENGR315-sp2026-student\Exams\Assignment 1 - COVID Data\\'
+    file_path = file_folder + file_name
     # open the NYT file path
     try:
         fin = open(file_path)
