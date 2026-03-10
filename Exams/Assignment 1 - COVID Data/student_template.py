@@ -69,7 +69,17 @@ def first_question(data):
     """
 
     # your code here
-    return
+    harrisonburg = []
+    rockingham = []
+    for (date,county, state, fips, cases, deaths) in data:
+        if state == 'Virginia' and county == 'Rockingham':
+            rockingham.append(date)
+        if state == 'Virginia' and county == 'Harrisonburg city':
+            harrisonburg.append(date)
+    print('First Rockingham death occured:', rockingham[0:1])
+    print('First Harrisonburg death occured:', harrisonburg[0:1])
+        
+        
 
 def second_question(data):
     """
@@ -78,8 +88,29 @@ def second_question(data):
     # What day was the greatest number of new daily cases recorded in Rockingham County?
     :return:
     """
+    harrisonburg = []
+    rockingham = []
+    for (date,county, state, fips, cases, deaths) in data:
+        if state == 'Virginia' and county == 'Rockingham':
+            rockingham.append(date)
+        if state == 'Virginia' and county == 'Harrisonburg city':
+            harrisonburg.append(date)
+    largest = 0
+    largest_date = 0
+    for date in rockingham:
+        total = rockingham.count(date)
+        if total >= largest:
+            largest = total
+            largest_date = date
+        print('The most cases in one day in Rockingham was', total, 'which occured on', date)
+    for date in harrisonburg:
+        total = harrisonburg.count(date)
+        if total >= largest:
+            largest = total
+            largest_date = date
+        print('The most cases in one day in Harrisonburg was', total, 'which occured on', date)
 
-    # your code here
+
     return
 
 def third_question(data):
@@ -96,8 +127,8 @@ def third_question(data):
 if __name__ == "__main__":
     data = parse_nyt_data('us-counties.csv')
 
-    for (date,county, state, fips, cases, deaths) in data:
-        print('On ', date, ' in ', county, ' ', state, ' there were ', cases, ' cases and ', deaths, ' deaths')
+    #for (date,county, state, fips, cases, deaths) in data:
+        #print('On ', date, ' in ', county, ' ', state, ' there were ', cases, ' cases and ', deaths, ' deaths')
 
 
     # write code to address the following question: Use print() to display your responses.
