@@ -73,11 +73,13 @@ def first_question(data):
     rockingham = []
     for (date,county, state, fips, cases, deaths) in data:
         if state == 'Virginia' and county == 'Rockingham':
-            rockingham.append(date)
+            if cases != 0:
+                rockingham.append(date)
         if state == 'Virginia' and county == 'Harrisonburg city':
-            harrisonburg.append(date)
-    print('First Rockingham death occured:', rockingham[0:1])
-    print('First Harrisonburg death occured:', harrisonburg[0:1])
+            if cases != 0:
+                harrisonburg.append(date)
+    print('First Rockingham COVID case occured:', rockingham[0])
+    print('First Harrisonburg COVID case occured:', harrisonburg[0])
         
         
 
@@ -90,26 +92,38 @@ def second_question(data):
     """
     harrisonburg = []
     rockingham = []
+
     for (date,county, state, fips, cases, deaths) in data:
         if state == 'Virginia' and county == 'Rockingham':
-            rockingham.append(date)
+            rockingham.append((date, cases))
         if state == 'Virginia' and county == 'Harrisonburg city':
-            harrisonburg.append(date)
-    largest = 0
-    largest_date = 0
-    for date in rockingham:
-        total = rockingham.count(date)
-        if total >= largest:
-            largest = total
-            largest_date = date
-        print('The most cases in one day in Rockingham was', total, 'which occured on', date)
-    for date in harrisonburg:
-        total = harrisonburg.count(date)
-        if total >= largest:
-            largest = total
-            largest_date = date
-        print('The most cases in one day in Harrisonburg was', total, 'which occured on', date)
+            harrisonburg.append((date, cases))
 
+    rockingham_largest_new_cases = 0
+    rockingham_largest_date = 0
+    rockingham_yesterday_cases = None
+
+    harrisonburg_largest_new_cases = 0
+    harrisonburg_largest_date = 0
+    harrisonburg_yesterday_cases = None
+
+    for date, cases in rockingham:
+        if rockingham_yesterday_cases is not None:
+            new_cases = cases - rockingham_yesterday_cases
+            if new_cases > rockingham_largest_new_cases:
+                rockingham_largest_new_cases = new_cases
+                rockingham_largest_date = date
+        rockingham_yesterday_cases = cases
+    print('The most cases in one day in Rockingham was', rockingham_largest_new_cases, 'which occured on', rockingham_largest_date)
+    
+    for date, cases in harrisonburg:
+        if harrisonburg_yesterday_cases is not None:
+            new_cases = cases - harrisonburg_yesterday_cases
+            if new_cases > harrisonburg_largest_new_cases:
+                harrisonburg_largest_new_cases = new_cases
+                harrisonburg_largest_date = date
+        harrisonburg_yesterday_cases = cases
+    print('The most cases in one day in Harrisonburg was', harrisonburg_largest_new_cases, 'which occured on', harrisonburg_largest_date)
 
     return
 
@@ -120,8 +134,54 @@ def third_question(data):
     # This is the 7-day period where the number of new cases was maximal.
     :return:
     """
+    harrisonburg = []
+    rockingham = []
+
+    for (date,county, state, fips, cases, deaths) in data:
+        if state == 'Virginia' and county == 'Rockingham':
+            rockingham.append((date, cases))
+        if state == 'Virginia' and county == 'Harrisonburg city':
+            harrisonburg.append((date, cases))
+
+    rockingham_new_cases_dated = []
+    rockingham_yesterday_cases = None
+    harrisonburg_new_cases_dated = []
+    harrisonburg_yesterday_cases = None
+
+    for date, cases in rockingham:
+        if rockingham_yesterday_cases is not None:
+            new_cases = cases - rockingham_yesterday_cases
+            rockingham_new_cases_dated.append((date, new_cases))
+        rockingham_yesterday_cases = cases
     
-    # your code here
+    for date, cases in harrisonburg:
+        if harrisonburg_yesterday_cases is not None:
+            new_cases = cases - harrisonburg_yesterday_cases
+            harrisonburg_new_cases_dated.append((date, new_cases))
+        harrisonburg_yesterday_cases = cases
+    
+    rockingham_largest_seven_span = 0
+    rockingham_seven_span_start = None
+    rockingham_seven_span_end = None
+    harrisonburg_largest_seven_span = 0
+    harrisonburg_seven_span_start = None
+    harrisonburg_seven_span_end = None
+
+    for i in range(len(rockingham_new_cases_dated)-6):
+        rockingham_seven_day_span = 0
+        for j in range(7):
+            rockingham_seven_day_span += rockingham_new_cases_dated[i + j][1]
+        if rockingham_seven_day_span > rockingham_largest_seven_span:
+            rockingham_largest_seven_span = rockingham_seven_day_span
+            rockingham_seven_span_start = rockingham_new_cases_dated[i][0]
+            rockingham_seven_span_end = rockingham_new_cases_dated[i+6][0]
+    print("The worst 7-day period of COVID cases in Rockingham County occured from",rockingham_seven_span_start," to ",rockingham_seven_span_end,", when ",rockingham_largest_seven_span," cases were recorded.")
+
+
+        
+
+
+
     return
 
 if __name__ == "__main__":
