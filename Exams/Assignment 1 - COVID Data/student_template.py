@@ -80,7 +80,9 @@ def first_question(data):
                 harrisonburg.append(date)
     print('First Rockingham COVID case occured:', rockingham[0])
     print('First Harrisonburg COVID case occured:', harrisonburg[0])
-        
+
+    return
+    
         
 
 def second_question(data):
@@ -126,6 +128,8 @@ def second_question(data):
     print('The most cases in one day in Harrisonburg was', harrisonburg_largest_new_cases, 'which occured on', harrisonburg_largest_date)
 
     return
+
+
 
 def third_question(data):
     """
@@ -177,12 +181,19 @@ def third_question(data):
             rockingham_seven_span_end = rockingham_new_cases_dated[i+6][0]
     print("The worst 7-day period of COVID cases in Rockingham County occured from",rockingham_seven_span_start," to ",rockingham_seven_span_end,", when ",rockingham_largest_seven_span," cases were recorded.")
 
-
-        
-
-
+    for i in range(len(harrisonburg_new_cases_dated)-6):
+        harrisonburg_seven_day_span = 0
+        for j in range(7):
+            harrisonburg_seven_day_span += harrisonburg_new_cases_dated[i + j][1]
+        if harrisonburg_seven_day_span > harrisonburg_largest_seven_span:
+            harrisonburg_largest_seven_span = harrisonburg_seven_day_span
+            harrisonburg_seven_span_start = harrisonburg_new_cases_dated[i][0]
+            harrisonburg_seven_span_end = harrisonburg_new_cases_dated[i+6][0]
+    print("The worst 7-day period of COVID cases in Harrisonburg occured from",harrisonburg_seven_span_start," to ",harrisonburg_seven_span_end,", when ",harrisonburg_largest_seven_span," cases were recorded.")
 
     return
+
+
 
 if __name__ == "__main__":
     data = parse_nyt_data('us-counties.csv')
