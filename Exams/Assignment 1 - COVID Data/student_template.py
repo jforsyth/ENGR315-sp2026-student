@@ -71,6 +71,7 @@ def first_question(data):
     # your code here
     harrisonburg = []
     rockingham = []
+    #lists of all harrisonburg and rockingham data for easier analysis
     for (date,county, state, fips, cases, deaths) in data:
         if state == 'Virginia' and county == 'Rockingham':
             if cases != 0:
@@ -78,6 +79,8 @@ def first_question(data):
         if state == 'Virginia' and county == 'Harrisonburg city':
             if cases != 0:
                 harrisonburg.append(date)
+    
+    #data is entered chronologically, we can simply grab first date of first data
     print('First Rockingham COVID case occured:', rockingham[0])
     print('First Harrisonburg COVID case occured:', harrisonburg[0])
 
@@ -94,13 +97,13 @@ def second_question(data):
     """
     harrisonburg = []
     rockingham = []
-
+    #lists of all harrisonburg and rockingham data for easier analysis
     for (date,county, state, fips, cases, deaths) in data:
         if state == 'Virginia' and county == 'Rockingham':
             rockingham.append((date, cases))
         if state == 'Virginia' and county == 'Harrisonburg city':
             harrisonburg.append((date, cases))
-
+    #make variables outside loops so they exist and can be called
     rockingham_largest_new_cases = 0
     rockingham_largest_date = 0
     rockingham_yesterday_cases = None
@@ -108,7 +111,9 @@ def second_question(data):
     harrisonburg_largest_new_cases = 0
     harrisonburg_largest_date = 0
     harrisonburg_yesterday_cases = None
-
+    #if previous day has cases, check how many are new today
+    #if previous day has no cases, current day = yesterday cases, for next loop
+    #store highest difference between 2 days, aka highest "new cases"
     for date, cases in rockingham:
         if rockingham_yesterday_cases is not None:
             new_cases = cases - rockingham_yesterday_cases
@@ -117,7 +122,10 @@ def second_question(data):
                 rockingham_largest_date = date
         rockingham_yesterday_cases = cases
     print('The most cases in one day in Rockingham was', rockingham_largest_new_cases, 'which occured on', rockingham_largest_date)
-    
+
+    #if previous day has cases, check how many are new today
+    #if previous day has no cases, current day = yesterday cases, for next loop
+    #store highest difference between 2 days, aka highest "new cases"
     for date, cases in harrisonburg:
         if harrisonburg_yesterday_cases is not None:
             new_cases = cases - harrisonburg_yesterday_cases
@@ -140,30 +148,34 @@ def third_question(data):
     """
     harrisonburg = []
     rockingham = []
-
+    #lists of all harrisonburg and rockingham data for easier analysis
     for (date,county, state, fips, cases, deaths) in data:
         if state == 'Virginia' and county == 'Rockingham':
             rockingham.append((date, cases))
         if state == 'Virginia' and county == 'Harrisonburg city':
             harrisonburg.append((date, cases))
 
+    #make variables outside loop so they can be called within loop
     rockingham_new_cases_dated = []
     rockingham_yesterday_cases = None
     harrisonburg_new_cases_dated = []
     harrisonburg_yesterday_cases = None
 
+    #for each case recorded, add to list with recorded date, remove other data
     for date, cases in rockingham:
         if rockingham_yesterday_cases is not None:
             new_cases = cases - rockingham_yesterday_cases
             rockingham_new_cases_dated.append((date, new_cases))
         rockingham_yesterday_cases = cases
     
+    #for each case recorded, add to list with recorded date, remove other data
     for date, cases in harrisonburg:
         if harrisonburg_yesterday_cases is not None:
             new_cases = cases - harrisonburg_yesterday_cases
             harrisonburg_new_cases_dated.append((date, new_cases))
         harrisonburg_yesterday_cases = cases
     
+    #make more variables so loop doesnt get mad that they dont exist
     rockingham_largest_seven_span = 0
     rockingham_seven_span_start = None
     rockingham_seven_span_end = None
@@ -171,8 +183,11 @@ def third_question(data):
     harrisonburg_seven_span_start = None
     harrisonburg_seven_span_end = None
 
+    #iterate through groups of 7, aka 7 consecutive data sets
     for i in range(len(rockingham_new_cases_dated)-6):
         rockingham_seven_day_span = 0
+        #iterate through each group of 7, sum case count, compare to largest sum recorded, update if larger than current largest
+        #we are counting absolute number of cases, not new cases, so no need to calculate new cases per day. 
         for j in range(7):
             rockingham_seven_day_span += rockingham_new_cases_dated[i + j][1]
         if rockingham_seven_day_span > rockingham_largest_seven_span:
@@ -181,8 +196,11 @@ def third_question(data):
             rockingham_seven_span_end = rockingham_new_cases_dated[i+6][0]
     print("The worst 7-day period of COVID cases in Rockingham County occured from",rockingham_seven_span_start," to ",rockingham_seven_span_end,", when ",rockingham_largest_seven_span," cases were recorded.")
 
+    #iterate through groups of 7, aka 7 consecutive data sets
     for i in range(len(harrisonburg_new_cases_dated)-6):
         harrisonburg_seven_day_span = 0
+        #iterate through each group of 7, sum case count, compare to largest sum recorded, update if larger than current largest
+        #we are counting absolute number of cases, not new cases, so no need to calculate new cases per day. 
         for j in range(7):
             harrisonburg_seven_day_span += harrisonburg_new_cases_dated[i + j][1]
         if harrisonburg_seven_day_span > harrisonburg_largest_seven_span:
