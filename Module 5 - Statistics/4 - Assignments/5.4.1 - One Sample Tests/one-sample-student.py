@@ -34,7 +34,22 @@ def one_sample_tests(_files: list, _mean: float, _alpha: float, _less_than: bool
     # list of files that are out of spec
     reject_null_hypothesis = []
 
-    # YOUR CODE HERE #
+    for filename in _files:
+        try:
+            data = np.loadtxt(filename)
+        except Exception as e:
+            print(f"Error loading {filename}: {e}")
+            continue
+
+        t_stat, p_value_two_sided = ttest_1samp(data, _mean)
+
+        if _less_than:
+            p_value_one_sided = p_value_two_sided / 2 if t_stat < 0 else 1 - (p_value_two_sided / 2)
+        else:
+            p_value_one_sided = p_value_two_sided / 2 if t_stat > 0 else 1 - (p_value_two_sided / 2)
+
+        if p_value_one_sided < _alpha:
+            reject_null_hypothesis.append(filename)
 
     # return samples that were rejected
     return reject_null_hypothesis
@@ -64,7 +79,7 @@ if __name__ == "__main__":
 
     # write samples to files
     write_to_csv('base1.txt', base_distribution_one)
-    write_to_csv('base2.txt', base_distribution_one)
+    write_to_csv('base2.txt', base_distribution_two)
     write_to_csv('lesser1.txt', less_than_distribution_one)
     write_to_csv('lesser2.txt', less_than_distribution_two)
     write_to_csv('greater1.txt', greater_than_distribution_one)
