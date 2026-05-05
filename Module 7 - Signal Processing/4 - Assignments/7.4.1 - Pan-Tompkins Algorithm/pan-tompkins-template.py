@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.signal import find_peaks #I am assuming we are supposed to be using this package, as I see the template refers to "find_peaks" function.
 from ekg_testbench import EKGTestBench
 
 def detect_heartbeats(filepath):
@@ -15,14 +16,16 @@ def detect_heartbeats(filepath):
     path = filepath
 
     # load data in matrix from CSV file; skip first two rows
-    ## your code here
+    data = np.loadtxt(path, delimiter=",", skiprows=2)
 
     # save each vector as own variable
-    ## your code here
+    time = data[:,0]
+    ekg1 = data[:,1]
+    ekg2 = data[:,2]
 
     # identify one column to process. Call that column signal
 
-    signal = -1 ## your code here
+    signal = ekg1
 
     # pass data through LOW PASS FILTER (OPTIONAL)
     ## your code here
@@ -31,20 +34,31 @@ def detect_heartbeats(filepath):
     ## your code here
 
     # pass data through differentiator
-    ## your code here
+    diff_signal = np.diff(signal, prepend=signal[0])
 
     # pass data through square function
-    ## your code here
+    squared_signal = np.square(diff_signal)
 
     # pass through moving average window
-    ## your code here
+    window_size = 40
+    average_signal = np.convolve(
+            squared_signal,
+            np.ones(window_size) / window_size,
+            mode="same"
+    )
 
     # use find_peaks to identify peaks within averaged/filtered data
     # save the peaks result and return as part of testbench result
 
-    ## your code here peaks,_ = find_peaks(....)
+    threshold = np.mean(average_signal)*0.5
+    
+    peaks, _ = find_peaks(
+        average_signal,
+        height = threshold,
+        distance = 130
+    )
 
-    beats = None
+    beats = peaks
 
     # do not modify this line
     return signal, beats
@@ -71,7 +85,7 @@ if __name__ == "__main__":
     ### DO NOT MODIFY BELOW THIS LINE!!! ###
 
     # path to ekg folder
-    path_to_folder = "../../../data/ekg/"
+    path_to_folder = "data/ekg/"
 
     # select a signal file to run
     signal_filepath = path_to_folder + database_name + ".csv"
