@@ -13,14 +13,15 @@ df['CRASH TIME'] = pd.to_datetime(df['CRASH TIME'], format='%H:%M', errors='coer
 df['HOUR'] = df['CRASH TIME'].dt.hour
 
 #Q1 - How have crashes trended over the years?
+#Convert dates into month-year format
 df['MONTH_YEAR'] = df['CRASH DATE'].dt.to_period('M')
 monthly_data = df['MONTH_YEAR'].value_counts().sort_index().reset_index()
 monthly_data.columns = ['Month-Year', 'Total Crashes']
-
+#Print info
 print("Crash Trends Over Time")
 print(monthly_data)
 print("\n")
-
+#Plot info
 plt.figure(figsize=(12, 6))
 plt.plot(monthly_data['Month-Year'].dt.to_timestamp(), monthly_data['Total Crashes'], color='tab:blue')
 plt.title('Monthly Trend of NYC Crashes', fontsize=14)
@@ -30,17 +31,19 @@ plt.grid(True, linestyle='--', alpha=0.7)
 plt.show()
 
 #Q4 - What is historically the most dangerous time/place to drive?
+#Sort crash reports by borough, if no borough is reported, remove data from set
+#Sort each borough's data by time of day
 df_filtered = df.dropna(subset=['BOROUGH'])
 borough_hour_data = df_filtered.groupby(['BOROUGH', 'HOUR']).size().unstack(level=0).fillna(0)
-
+#Print info
 print("Most Dangerous Time and Place to Drive")
 print(borough_hour_data)
 print("\n")
-
+#Plot info, plot each borough
 plt.figure(figsize=(12, 7))
 for borough in borough_hour_data.columns:
     plt.plot(borough_hour_data.index, borough_hour_data[borough], marker='.', label=borough)
-
+#Plot titles and labels
 plt.title('Accidents by Hour Across NYC Boroughs', fontsize=14)
 plt.xlabel('Hour of Day')
 plt.ylabel('Number of Accidents')
@@ -51,17 +54,18 @@ plt.tight_layout()
 plt.show()
 
 #Q5 - What are the most common contributing factors to accidents?
+#Compile all contributing factors of crashes into a single list, count total occurances for each factor
 factor_cols = ['CONTRIBUTING FACTOR VEHICLE 1', 'CONTRIBUTING FACTOR VEHICLE 2',
                'CONTRIBUTING FACTOR VEHICLE 3', 'CONTRIBUTING FACTOR VEHICLE 4',
                'CONTRIBUTING FACTOR VEHICLE 5']
 all_factors = pd.concat([df[col] for col in factor_cols]).dropna()
 factor_data = all_factors[all_factors != 'Unspecified'].value_counts().head(10).reset_index()
 factor_data.columns = ['Contributing Factor', 'Occurrence Count']
-
+#Print list of contributing factors by occurance count
 print("Contributing Factors")
 print(factor_data)
 print("\n")
-
+#Plot bar graph of contributing factors
 plt.figure(figsize=(10, 6))
 plt.bar(factor_data['Contributing Factor'], factor_data['Occurrence Count'], color='tab:green', edgecolor='black')
 plt.title('Contributing Factors', fontsize=14)
