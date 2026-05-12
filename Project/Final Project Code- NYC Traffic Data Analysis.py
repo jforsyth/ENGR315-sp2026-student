@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 
 #Load NYC Traffic Report dataset & read file w/ pandas
 file_path = r"C:\Users\thatt\OneDrive_Personal\OneDrive\Desktop\ENGR315-sp2026-student\Project\Motor_Vehicle_Collisions_-_Crashes.csv"
+#My (Josh J) OneDrive gives conflicting errors regarding the file path. To resolve, copy exact file path to .csv and paste as raw string for 'file_path'.
 df = pd.read_csv(file_path)
 
 #Seperate data file columns, clean for easier analysis
