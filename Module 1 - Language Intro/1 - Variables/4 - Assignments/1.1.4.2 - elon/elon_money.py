@@ -13,10 +13,18 @@ Note that Elon's capital will be $33B.
 """
 
 ### all your code below ###
-
+import math
+principal = 33000000000
+r_10yr = 3.96
+r_20yr = 4.32
+n_10yr = 10
+n_20yr = 20
 
 # final answer for 10-year
-ten_year_final = None
 
+
+ten_year_final = principal * math.pow((1 + (r_10yr/100)), n_10yr)
+print("In 10 year bonds, his 44 billion would be worth $" + str(ten_year_final))
 # final answer for 20-year
-twenty_year_final = None
+twenty_year_final = principal * math.pow((1 + (r_20yr/100)), n_20yr)
+print("In 20 year bonds, his 44 billion would be worth $" + str(twenty_year_final))
