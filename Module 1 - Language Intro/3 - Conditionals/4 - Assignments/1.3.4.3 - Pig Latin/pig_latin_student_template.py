@@ -36,12 +36,14 @@ for word in words:
     # word is too short. Do nothing.
     if len(word) < 3:
         # place the word in the pig_latin list
+        pig_latin.append(word)
         ### your code here ###
         continue
 
     # starts with vowel, modify accordingly and put in list
     elif starts_with_vowel(word) == True:
         # modify the word and place in pig_latin list
+        pig_latin.append(word + "way")
         ### your code here ###
         continue
 

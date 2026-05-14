@@ -14,9 +14,11 @@ Note that Elon's capital will be $33B.
 
 ### all your code below ###
 
-
+P = 33000000000
+R10 = 0.0396
+R20 = 0.0432 
 # final answer for 10-year
-ten_year_final = None
+ten_year_final = P*(1+R10)**10 
 
 # final answer for 20-year
-twenty_year_final = None
+twenty_year_final = P*(1+R20)**20

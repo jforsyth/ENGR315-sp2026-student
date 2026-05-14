@@ -11,9 +11,11 @@ Out-of-state total cost: 47882 USD
 Note: this problem does not require the "compounding interest" formula from the previous problem.
 
 """
+inStateCost = 30792
+outStateCost = 47882
 
 ### Your code here ###
 
-in_state_gift = 0
+in_state_gift = inStateCost * 20
 
-out_state_gift = 0
+out_state_gift = outStateCost * 20
