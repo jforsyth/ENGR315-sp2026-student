@@ -33,7 +33,21 @@ def two_sided_tests(_files1: list, _files2: list , _alpha: float):
     # list of files that are out of spec
     reject_null_hypothesis = []
 
-    # YOUR CODE HERE #
+    if len(_files1) != len(_files2):
+        print("File lists must be the same length.")
+        return reject_null_hypothesis
+
+    for i in range(len(_files1)):
+        file1 = _files1[i]
+        file2 = _files2[i]
+
+        sample1 = np.loadtxt(file1)
+        sample2 = np.loadtxt(file2)
+
+        t_stat, p_value = ttest_ind(sample1, sample2)
+
+        if p_value < _alpha:
+            reject_null_hypothesis.append((file1, file2))
 
     # return samples that were rejected
     return reject_null_hypothesis
@@ -63,7 +77,7 @@ if __name__ == "__main__":
 
     # write samples to files
     write_to_csv('equal1.txt', equal_distribution_one)
-    write_to_csv('equal2.txt', equal_distribution_one)
+    write_to_csv('equal2.txt', equal_distribution_two)
     write_to_csv('lesser1.txt', less_than_distribution_one)
     write_to_csv('lesser2.txt', less_than_distribution_two)
     write_to_csv('greater1.txt', greater_than_distribution_one)
